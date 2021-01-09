@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <RelativeLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="680dp">
+    <TextView
+        android:id="@+id/textHomeFragHello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="30sp"
+        android:text='Hello -----, you have 1000 kcal remaining out of 2400.' />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="25sp"
+
+
+            android:layout_below="@+id/textHomeFragHello"
+            android:id="@+id/textHomeFragProteinGrams"
+            android:text="Protein: x/200 g"
+            android:textColor="#45b6fe"
+
+
+            ></TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="25sp"
+
+
+            android:layout_below="@+id/textHomeFragProteinGrams"
+            android:id="@+id/textHomeFragCarbsGrams"
+            android:text="Carbs: x/200 g"
+            android:textColor="#b53737"
+
+
+            ></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="25sp"
+
+
+            android:layout_below="@+id/textHomeFragCarbsGrams"
+            android:id="@+id/textHomeFragFatsGrams"
+            android:text="Fats: x/85 g"
+            android:textColor="#FF7F50"
+
+
+            ></TextView>
+    </RelativeLayout>
+</RelativeLayout>
