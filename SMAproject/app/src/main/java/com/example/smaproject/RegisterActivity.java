@@ -22,6 +22,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import static com.example.smaproject.CalorieLogic.getCarb;
+import static com.example.smaproject.CalorieLogic.getFats;
+import static com.example.smaproject.CalorieLogic.getKcalFloss;
+import static com.example.smaproject.CalorieLogic.getKcalGain;
+import static com.example.smaproject.CalorieLogic.getKcalMaintain;
+import static com.example.smaproject.CalorieLogic.getProtein;
+
 public class RegisterActivity extends AppCompatActivity {
 
 
@@ -142,6 +149,61 @@ public class RegisterActivity extends AppCompatActivity {
                             map.put("goal", edGoalRegToString);
                             myRef.child("Users").child(mAuth.getCurrentUser().getUid()).child("Data").setValue(map);
 
+                            double kcalToPush;
+
+                            if(edGoalRegToString.equals("Fat loss")) {
+
+                                kcalToPush = getKcalFloss(edGenderRegToString, age, weight, height);
+
+                            } else if (edGoalRegToString.equals("Muscle gain")){
+
+                                kcalToPush = getKcalGain(edGenderRegToString, age, weight, height);
+
+                            } else {
+                                kcalToPush = getKcalMaintain(edGenderRegToString, age, weight, height);
+
+                            }
+
+
+                            double fatsToPush = getFats(kcalToPush);
+                            double proteinToPush = getProtein(kcalToPush);
+                            double carbsToPush = getCarb(kcalToPush);
+                            UserNeeds needsToPush = new UserNeeds();
+                            needsToPush.setkCal(kcalToPush);
+                            needsToPush.setCarbs(carbsToPush);
+                            needsToPush.setFats(fatsToPush);
+                            needsToPush.setProtein(proteinToPush);
+
+                            myRef.child("Users").child(mAuth.getCurrentUser().getUid()).child("Needs").setValue(needsToPush);
+
+
+                            HashMap <String, Object> map1 = new HashMap<>();
+                            String date = CalorieLogic.getDate();
+
+                            map1.put("carbs", 0 );
+                            map1.put("fats", 0 );
+                            map1.put("protein", 0 );
+                            map1.put("kCal", 0 );
+                            map1.put("day", date);
+
+
+                            myRef.child("Users").child(mAuth.getCurrentUser().getUid()).child("History").child(date).updateChildren(map1);
+
+
+                            HashMap <String, Object> map2 = new HashMap<>();
+
+
+                            map2.put("carbs", 0 );
+                            map2.put("fats", 0 );
+                            map2.put("protein", 0 );
+                            map2.put("kCal", 0 );
+                            map2.put("day", date);
+
+
+
+
+
+                            myRef.child("Users").child(mAuth.getCurrentUser().getUid()).child("History").child(date).child("Totals").updateChildren(map2);
 
                             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                             startActivity(intent);

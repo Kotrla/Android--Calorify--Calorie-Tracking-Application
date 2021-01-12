@@ -17,6 +17,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
         android:textColor="#FFFFFF"
+        android:fontFamily="@font/cream_cake"
+
+        android:textSize="70sp"
         />
     <RelativeLayout
 
@@ -42,6 +45,8 @@
             android:layout_below="@id/edEm"
             android:paddingLeft="10dp"
             android:background="#ffff"
+            android:inputType="textPassword"
+
             android:id="@+id/edPw"
             android:layout_width="match_parent"
             android:layout_height="55dp"></EditText>

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.smaproject.EditActivity;
 import com.example.smaproject.History;
 import com.example.smaproject.Home;
+import com.example.smaproject.MainActivity;
 import com.example.smaproject.R;
 import com.example.smaproject.UserClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -129,11 +130,25 @@ public class NotificationsFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                ((Home) getActivity()).startActivity(intent);
 
             }
         });
         /**/
+/*
+        Button btn4 = (Button) rootView.findViewById(R.id.BtnSettingsAddfood);
 
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), AddFood.class);
+                ((Home) getActivity()).startActivity(intent);
+
+            }
+        });*/
 
 
         return rootView;

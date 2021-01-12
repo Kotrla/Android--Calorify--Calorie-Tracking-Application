@@ -2,7 +2,7 @@ package com.example.smaproject;
 
 public class UserNeeds {
     private double kCal, protein, carbs, fats;
-
+    private String day;
     public UserNeeds() {
     }
 
@@ -11,6 +11,22 @@ public class UserNeeds {
         this.protein = protein;
         this.carbs = carbs;
         this.fats = fats;
+    }
+
+    public UserNeeds(double kCal, double protein, double carbs, double fats, String day) {
+        this.kCal = kCal;
+        this.protein = protein;
+        this.carbs = carbs;
+        this.fats = fats;
+        this.day = day;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 
     public double getkCal() {

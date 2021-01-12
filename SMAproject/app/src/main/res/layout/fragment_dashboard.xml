@@ -23,6 +23,8 @@
              android:layout_height="wrap_content"
              android:text="Breakfast"
              android:textColor="@color/colorPrimary"
+
+             android:layout_marginTop="10dp"
              android:layout_marginBottom="5dp"
              android:id="@+id/TxtviewBreakfastMeals"
              ></TextView>
@@ -33,6 +35,7 @@
          android:text="kCal"
          android:textColor="@color/colorPrimary"
          android:layout_marginBottom="5dp"
+         android:layout_marginTop="10dp"
          android:layout_marginLeft="5dp"
          android:layout_toEndOf="@+id/TxtviewBreakfastKcal"
          android:id="@+id/TxtviewBreakfastKcalLabel"
@@ -43,6 +46,7 @@
          android:layout_height="wrap_content"
          android:text="0"
          android:layout_marginLeft="300dp"
+         android:layout_marginTop="10dp"
          android:textColor="@color/colorPrimary"
          android:layout_marginBottom="5dp"
          android:id="@+id/TxtviewBreakfastKcal"
@@ -70,18 +74,6 @@
              ></Button>
 
 
-     <Button
-         android:id ="@+id/BtnDeleteBreakfastMeal"
-         android:layout_width="30dp"
-         android:layout_height="30dp"
-         android:text="-"
-         android:textSize="@dimen/activity_horizontal_margin"
-         android:textColor="#ffff"
-         android:layout_margin="4dp"
-         android:background="@drawable/button_bg_round"
-         android:layout_alignParentLeft="@+id/BtnAddFoodBreakfastMeal"
-         android:layout_below="@+id/recyclerViewBreakfastMeals"
-         />
 
 
 
@@ -147,18 +139,6 @@
          ></Button>
 
 
-     <Button
-         android:id ="@+id/BtnDeleteLunchMeal"
-         android:layout_width="30dp"
-         android:layout_height="30dp"
-         android:text="-"
-         android:textSize="@dimen/activity_horizontal_margin"
-         android:textColor="#ffff"
-         android:layout_margin="4dp"
-         android:background="@drawable/button_bg_round"
-         android:layout_alignParentLeft="@+id/BtnAddFoodLunchMeal"
-         android:layout_below="@+id/recyclerViewLunchMeals"
-         />
 
 
 
@@ -224,18 +204,7 @@
          ></Button>
 
 
-     <Button
-         android:id ="@+id/BtnDeleteDinnerMeal"
-         android:layout_width="30dp"
-         android:layout_height="30dp"
-         android:text="-"
-         android:textSize="@dimen/activity_horizontal_margin"
-         android:textColor="#ffff"
-         android:layout_margin="4dp"
-         android:background="@drawable/button_bg_round"
-         android:layout_alignParentLeft="@+id/BtnAddFoodLunchMeal"
-         android:layout_below="@+id/recyclerViewDinnerMeals"
-         />
+
 
  </RelativeLayout>
 

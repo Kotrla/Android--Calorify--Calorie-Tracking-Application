@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,18 +17,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
     private EditText edEm, edPw;
     private Button btnLog, btnReg;
-
+    TextView titleLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
         edPw = findViewById(R.id.edPw);
         btnLog = findViewById(R.id.BtnLog);
         btnReg = findViewById(R.id.BtnReg);
-
-
+        titleLabel = findViewById(R.id.Title);
 
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,5 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
-
+    @Override
+    public void onBackPressed() {
+// empty so nothing happens
+    }
 }

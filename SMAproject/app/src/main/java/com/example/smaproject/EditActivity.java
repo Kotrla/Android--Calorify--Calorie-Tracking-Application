@@ -8,15 +8,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.smaproject.CalorieLogic.getCarb;
+import static com.example.smaproject.CalorieLogic.getFats;
+import static com.example.smaproject.CalorieLogic.getKcalFloss;
+import static com.example.smaproject.CalorieLogic.getKcalGain;
+import static com.example.smaproject.CalorieLogic.getKcalMaintain;
+import static com.example.smaproject.CalorieLogic.getProtein;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -79,34 +90,7 @@ public class EditActivity extends AppCompatActivity {
                     // Whatever you want to happen when the thrid item gets selected
                     break;
             }
-/*
-                final UserClass userUpdate = new UserClass();
-                ValueEventListener eventListener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-
-                        UserClass userClass = dataSnapshot.getValue(UserClass.class);
-
-                        userUpdate.setName(userClass.getName());
-                        userUpdate.setAge(userClass.getAge());
-                        userUpdate.setEmail(userClass.getEmail());
-                        userUpdate.setId(userClass.getId());
-                        userUpdate.setWeight(userClass.getWeight());
-                        userUpdate.setHeight(userClass.getHeight());
-                        userUpdate.setGender(userClass.getGender());
-                        userUpdate.setGoal(userClass.getGoal());
-
-
-                        System.out.println(userUpdate.getName());
-                    }
-
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                };
-                dataRef.addListenerForSingleValueEvent(eventListener);*/
 
                 String nameGot;
                 int ageGot, weightGot, heightGot;
@@ -136,6 +120,48 @@ public class EditActivity extends AppCompatActivity {
 
                 dataRef.updateChildren(hashMap);
 
+                dataRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        UserClass userGotten = snapshot.getValue(UserClass.class);
+
+                        double kcalToPush;
+
+                        if(userGotten.getGoal().equals("Fat loss")) {
+
+                            kcalToPush = getKcalFloss(userGotten.getGender(), userGotten.getAge(), userGotten.getWeight(), userGotten.getHeight());
+
+                        } else if (userGotten.getGoal().equals("Muscle gain")){
+
+                            kcalToPush = getKcalGain(userGotten.getGender(), userGotten.getAge(), userGotten.getWeight(), userGotten.getHeight());
+
+                        } else {
+                            kcalToPush = getKcalMaintain(userGotten.getGender(), userGotten.getAge(), userGotten.getWeight(), userGotten.getHeight());
+
+                        }
+
+
+                        double fatsToPush = getFats(kcalToPush);
+                        double proteinToPush = getProtein(kcalToPush);
+                        double carbsToPush = getCarb(kcalToPush);
+                        UserNeeds needsToPush = new UserNeeds();
+                        needsToPush.setkCal(kcalToPush);
+                        needsToPush.setCarbs(carbsToPush);
+                        needsToPush.setFats(fatsToPush);
+                        needsToPush.setProtein(proteinToPush);
+
+                        rootRef.child("Needs").setValue(needsToPush);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
                 Intent intent = new Intent(EditActivity.this, Home.class);
                 startActivity(intent);
 
@@ -151,6 +177,10 @@ public class EditActivity extends AppCompatActivity {
 
 
         });
+
+
+
+
     }
 
 

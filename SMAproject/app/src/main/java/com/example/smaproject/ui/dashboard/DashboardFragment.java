@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +32,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DashboardFragment extends Fragment {
 
@@ -42,7 +45,7 @@ public class DashboardFragment extends Fragment {
     DatabaseReference lunchCurrentDayRef;
     private RecyclerView recyclerViewBreakfast;
     FoodAdapter adapter, adapterLunch,adapterDinner;
-    Button BtnAddFoodLunchMeal,BtnDeleteLunchMeal, BtnDeleteDinnerMeal;
+    Button BtnAddFoodLunchMeal;
     RecyclerView recyclerViewLunchMeals, recyclerViewDinnerMeals;
 
 
@@ -55,7 +58,6 @@ public class DashboardFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, null);
 
         BtnAddFoodBreakfastMeal = rootView.findViewById(R.id.BtnAddFoodBreakfastMeal);
-        BtnDeleteBreakfastMeal = rootView.findViewById(R.id.BtnDeleteBreakfastMeal);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         breakfastKcal = rootView.findViewById(R.id.TxtviewBreakfastKcal);
 
@@ -67,9 +69,13 @@ public class DashboardFragment extends Fragment {
 
         final String date = CalorieLogic.getDate(); //current date
 
+        
 
         breakfastRef = rootRef.child("Users").child(user_id).child("History").child(date).child("Breakfast");
         breakfastTotalNumbersRef = rootRef.child("Users").child(user_id).child("History").child(date).child("breakfastTotals");
+
+
+
 
 
 
@@ -78,9 +84,13 @@ public class DashboardFragment extends Fragment {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         breakfastRef.addValueEventListener(new ValueEventListener() {
-            double k, p,f,c = 0;
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double k = 0;
+                double p = 0;
+                double f = 0;
+                double c = 0;
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()) {
                     Food foodFromDatabase = dataSnapshot.getValue(Food.class);
                     k = k + foodFromDatabase.getKcal();
@@ -107,14 +117,24 @@ public class DashboardFragment extends Fragment {
 
         DatabaseReference breakFastCurrentDayRef= rootRef.child("Users").child(user_id).child("History").child(date).child("Breakfast");
         recyclerViewBreakfast.setLayoutManager(new LinearLayoutManager(getContext()));
-        FirebaseRecyclerOptions<Food> options
-                = new FirebaseRecyclerOptions.Builder<Food>()
-                .setQuery(breakFastCurrentDayRef, Food.class)
-                .build();
+        FirebaseRecyclerOptions<Food> options = new FirebaseRecyclerOptions.Builder<Food>().setQuery(breakFastCurrentDayRef, Food.class).build();
 
 
         adapter = new FoodAdapter(options);
         recyclerViewBreakfast.setAdapter(adapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.deleteItem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerViewBreakfast);
 
         ////reclyerView breakfast code                                                          END
 
@@ -238,20 +258,6 @@ public class DashboardFragment extends Fragment {
 
 
 
-        BtnDeleteBreakfastMeal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v){
-
-
-
-
-
-
-
-            }
-         }
-        );
-
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////END OF BREAKFAST CODE
@@ -266,16 +272,20 @@ public class DashboardFragment extends Fragment {
 
 
         BtnAddFoodLunchMeal = rootView.findViewById(R.id.BtnAddFoodLunchMeal);
-        BtnDeleteLunchMeal = rootView.findViewById(R.id.BtnDeleteLunchMeal);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////BEGIN OF LUNCH CODE
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         lunchRef.addValueEventListener(new ValueEventListener() {
-            double k, p,f,c = 0;
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double k = 0;
+                double p = 0;
+                double f = 0;
+                double c = 0;
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()) {
+
                     Food foodFromDatabase = dataSnapshot.getValue(Food.class);
                     k = k + foodFromDatabase.getKcal();
                     p = p + foodFromDatabase.getProtein();
@@ -309,6 +319,20 @@ public class DashboardFragment extends Fragment {
         adapterLunch = new FoodAdapter(optionsLunch);
         recyclerViewLunchMeals.setAdapter(adapterLunch);
 
+
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapterLunch.deleteItem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerViewLunchMeals);
         ////reclyerView breakfast code                                                          END
 
 
@@ -417,19 +441,7 @@ public class DashboardFragment extends Fragment {
 
 
 
-        BtnDeleteLunchMeal.setOnClickListener(new View.OnClickListener() {
-                                                      @Override
-                                                      public void onClick (View v){
 
-
-
-
-
-
-
-                                                      }
-                                                  }
-        );
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -444,16 +456,20 @@ public class DashboardFragment extends Fragment {
 
 
         BtnAddFoodDinnerMeal = rootView.findViewById(R.id.BtnAddFoodDinnerMeal);
-        BtnDeleteDinnerMeal = rootView.findViewById(R.id.BtnDeleteDinnerMeal);
 
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////BEGIN OF DINNER CODE
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         dinnerRef.addValueEventListener(new ValueEventListener() {
-            double k, p,f,c = 0;
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double k = 0;
+                double p = 0;
+                double f = 0;
+                double c = 0;
+
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()) {
                     Food foodFromDatabase = dataSnapshot.getValue(Food.class);
                     k = k + foodFromDatabase.getKcal();
@@ -488,6 +504,18 @@ public class DashboardFragment extends Fragment {
         adapterDinner = new FoodAdapter(optionsDinner);
         recyclerViewDinnerMeals.setAdapter(adapterDinner);
 
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapterDinner.deleteItem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerViewDinnerMeals);
         ////reclyerView breakfast code                                                          END
 
 
@@ -596,25 +624,86 @@ public class DashboardFragment extends Fragment {
 
 
 
-        BtnDeleteDinnerMeal.setOnClickListener(new View.OnClickListener() {
-                                                  @Override
-                                                  public void onClick (View v){
-
-
-
-
-
-
-
-                                                  }
-                                              }
-        );
-
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////END OF DINNER CODE
-        return rootView;
 
+
+
+
+
+
+
+        DatabaseReference TotalNumbersRef = rootRef.child("Users").child(user_id).child("History").child(date);
+
+
+
+        TotalNumbersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double k = 0 ;
+                double c = 0;
+                double p = 0;
+                double f = 0;
+
+                UserNeeds newNeeds = new UserNeeds();
+                UserNeeds gottenNeeds;
+                gottenNeeds= snapshot.child("breakfastTotals").getValue(UserNeeds.class);
+
+                k = gottenNeeds.getkCal() + k;
+                c = gottenNeeds.getCarbs() + c;
+                f = gottenNeeds.getFats() + f;
+                p = gottenNeeds.getProtein() + p;
+
+
+
+                gottenNeeds= snapshot.child("lunchTotals").getValue(UserNeeds.class);
+                k = gottenNeeds.getkCal() + k;
+                c = gottenNeeds.getCarbs() + c;
+                f = gottenNeeds.getFats() + f;
+                p = gottenNeeds.getProtein() + p;
+
+
+                gottenNeeds= snapshot.child("dinnerTotals").getValue(UserNeeds.class);
+                k = gottenNeeds.getkCal() + k;
+                c = gottenNeeds.getCarbs() + c;
+                f = gottenNeeds.getFats() + f;
+                p = gottenNeeds.getProtein() + p;
+
+
+
+                newNeeds.setCarbs(c);
+                newNeeds.setProtein(p);
+                newNeeds.setFats(f);
+                newNeeds.setkCal(k);
+                newNeeds.setDay(date);
+
+                DatabaseReference pushData = rootRef.child("Users").child(user_id).child("History").child(date);
+                pushData.child("Totals").setValue(newNeeds);
+
+
+                Map<String, Object> hashMap = new HashMap<>();
+                hashMap.put("carbs",newNeeds.getCarbs());
+                hashMap.put("fats", newNeeds.getFats());
+                hashMap.put("protein", newNeeds.getProtein());
+                hashMap.put("kCal", newNeeds.getkCal());
+                hashMap.put("day", newNeeds.getDay());
+
+
+                pushData.updateChildren(hashMap);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+        return rootView;
 }
 
     @Override
@@ -636,4 +725,5 @@ public class DashboardFragment extends Fragment {
         adapterLunch.stopListening();
         adapterDinner.stopListening();
     }
+
 }

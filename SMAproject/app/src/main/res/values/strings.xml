@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">SMAproject</string>
-    <string name="title_activity_home">MainActivity</string>
+    <string name="app_name">Calorify</string>
+    <string name="title_activity_home">Calorify</string>
     <string name="title_home">Home</string>
-    <string name="meal">Meal</string>
-    <string name="data">Data</string>
+    <string name="meal">Meals</string>
+    <string name="data">Settings</string>
 </resources>

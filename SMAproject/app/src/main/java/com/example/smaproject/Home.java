@@ -11,16 +11,10 @@ import com.example.smaproject.ui.dashboard.DashboardFragment;
 import com.example.smaproject.ui.home.HomeFragment;
 import com.example.smaproject.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-
-import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
 
-    DatabaseReference rootRef, foodRef;
-    FirebaseUser currentUser;
 
 
     @Override
@@ -38,6 +32,8 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
         navigation.setOnNavigationItemSelectedListener(this);
 
 
+
+
     }
 
 
@@ -52,44 +48,22 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
         }
         return false;
     }
-/*
-public void onClickerEditSettings(){
-    BtnSettingsEdit = findViewById(R.id.BtnSettingsEdit);
-    BtnSettingsHistory = findViewById(R.id.BtnSettingsHistory);
-    BtnSettingsLogOut = findViewById(R.id.BtnSettingsLogOut);
 
-    BtnSettingsEdit.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-            // Perform action on clic
-
-            // currentContext.startActivity(activityChangeIntent);
-            Intent intent = new Intent(Home.this, EditActivity.class);
-            startActivity(intent);
-        }
-    });
-
-/*
-    BtnSettingsHistory.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-            Intent intent = new Intent(getActivity(), History.class);
-            startActivity(intent);
-        }
-    });
+    public void setNeeds(){
 
 
-    BtnSettingsLogOut.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
 
 
-            //TO DO MORE STUFF
 
 
-            Intent intent = new Intent(getActivity(), History.class);
-            startActivity(intent);
-        }
-    });
-s
-*/
+
+
+
+
+
+
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
