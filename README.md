@@ -2,7 +2,7 @@
 An android application that allows its users to track their daily consumed calories and macronutrients. The required amount of calories and macronutrients is automatically calculated. 
 
 # Video Demonstration:
-TODO
+http://tiny.cc/Calorify-Android-Demo
 
 # Features: 
 #### -User Login/Registration
